@@ -4,6 +4,19 @@
 (function() {
   'use strict';
 
+  // Debounce function to limit how often hideShorts runs
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
   // Function to hide shorts sections
   function hideShorts() {
     // Hide shorts shelf on channel page
@@ -28,10 +41,9 @@
   // Run on page load
   hideShorts();
 
-  // Watch for dynamic content changes
-  const observer = new MutationObserver(() => {
-    hideShorts();
-  });
+  // Watch for dynamic content changes with debouncing
+  const debouncedHideShorts = debounce(hideShorts, 250);
+  const observer = new MutationObserver(debouncedHideShorts);
 
   observer.observe(document.body, {
     childList: true,

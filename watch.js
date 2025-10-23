@@ -4,6 +4,19 @@
 (function() {
   'use strict';
 
+  // Debounce function to limit how often hideShortsInWatch runs
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
   // Function to hide shorts in watch page
   function hideShortsInWatch() {
     // Hide shorts shelf in the sidebar/recommendations
@@ -33,10 +46,9 @@
   // Run on page load
   hideShortsInWatch();
 
-  // Watch for dynamic content changes
-  const observer = new MutationObserver(() => {
-    hideShortsInWatch();
-  });
+  // Watch for dynamic content changes with debouncing
+  const debouncedHideShortsInWatch = debounce(hideShortsInWatch, 250);
+  const observer = new MutationObserver(debouncedHideShortsInWatch);
 
   observer.observe(document.body, {
     childList: true,
