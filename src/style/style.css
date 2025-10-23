@@ -1,0 +1,6 @@
+/* this is for overriding purposes with css (for hiding the videos a class is applied to the video) */
+
+.fshorts-blocked {
+    filter: blur(256px) !important;
+    -webkit-filter: blur(256px) !important;
+}
