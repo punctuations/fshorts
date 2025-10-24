@@ -13,8 +13,26 @@ function hideElement(el) {
   }
 }
 
+function isExceptionPage() {
+  const p = location.pathname || "";
+  // Exception 1: Any classic channel path, e.g., /channel/UCxxxx
+  if (p.startsWith("/channel/")) return true;
+  // Exception 2: Channel handle Shorts tab, e.g., /@slug/shorts (optional trailing slash)
+  if (/^\/@[^/]+\/shorts\/?$/.test(p)) return true;
+  return false;
+}
+
 function applyBlock() {
   applyScheduled = false;
+
+  // On exception pages, restore visibility and skip hiding
+  if (isExceptionPage()) {
+    // only remove sidebar
+    document.querySelectorAll('a[title="Shorts"]').forEach((el) => {
+      el.style.display = "none";
+    });
+    return;
+  }
 
   // 1) Sidebar Shorts entry
   document.querySelectorAll('a[title="Shorts"]').forEach(hideElement);

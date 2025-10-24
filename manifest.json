@@ -4,7 +4,6 @@
   "name": "fshorts",
   "version": "1.0.0",
   "description": "F*ck Shorts.",
-  "permissions": ["storage"],
 
   "action": {
     "default_icon": "public/icon.png"
