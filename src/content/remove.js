@@ -43,6 +43,10 @@ function applyBlock() {
       [
         "ytd-reel-shelf-renderer",
         "ytd-reel-video-renderer",
+        // New: explicit rich shelf variant marked as Shorts
+        "ytd-rich-shelf-renderer[is-shorts]",
+        // New: any element annotated with is-shorts
+        "[is-shorts]",
         'a[href^="/shorts"]',
       ].join(",")
     )
